@@ -15,7 +15,7 @@ jobs:
       - name: Dockerhub login
         uses: docker/login-action@v1
         with:
-          usernme: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build image and push to Docker Hub's registry
