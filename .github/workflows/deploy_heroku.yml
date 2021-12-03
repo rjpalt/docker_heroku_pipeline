@@ -1,0 +1,33 @@
+name: Build Dockerfile and Release to Heroku
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Dockerhub login
+        uses: docker/login-action@v1
+        with:
+          usernme: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build image and push to Docker Hub's registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: rjpalt/rails_example_docker:latest
+
+      - name: Deploy container to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "Rails-docker"
+          heroku_email: "rjpalt@gmail.com"
+          usedocker: true
